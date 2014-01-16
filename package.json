@@ -1,0 +1,25 @@
+{
+  "name": "create-customelement-package",
+  "version": "0.0.0",
+  "description": "Generator that creates a custom element package directory will all required file and directories.",
+  "main": "./src/create-customelement-package.js",
+  "bin": "./bin/create-customelement-package-cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/briandipalma/create-customelement-package.git"
+  },
+  "keywords": [
+    "Custom",
+    "element",
+    "package",
+    "creator"
+  ],
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/briandipalma/create-customelement-package/issues"
+  }
+}
