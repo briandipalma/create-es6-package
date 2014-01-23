@@ -3,13 +3,10 @@
 
 var fs = require("fs"),
 	npm = require("npm"),
-	path = require("path");
+	path = require("path"),
+	Replacer = require("replacer");
 
-if(process.argv.length < 3) {
-	console.error("Usage: create-customelement-package <customelement-package-name>");
-
-	process.exit(1);
-}
+verifyCorrectCommandUsage();
 
 var packageName = process.argv[2],
 	packageDirectory = packageName + path.sep,
@@ -21,19 +18,28 @@ console.info("Creating the custom element package,", packageName);
 fs.mkdirSync(packageName);
 fs.mkdirSync(packageSrcDirectory);
 
-copyFileFromTemplateToNewlyCreatedPackage("server.js");
-copyFileFromTemplateToNewlyCreatedPackage("index.html");
-copyFileFromTemplateToNewlyCreatedPackage("package.json");
+copyFileFromTemplateToNewlyCreatedPackageAndTransform("server.js", new Replacer("PCK-NAME", packageName));
+copyFileFromTemplateToNewlyCreatedPackageAndTransform("README.md", new Replacer("PCK-NAME", packageName));
+copyFileFromTemplateToNewlyCreatedPackageAndTransform("index.html", new Replacer("PCK-NAME", packageName));
+copyFileFromTemplateToNewlyCreatedPackageAndTransform("package.json", new Replacer("PCK-NAME", packageName));
 
 npm.load(npmLoaded);
 
-function copyFileFromTemplateToNewlyCreatedPackage(fileName) {
+function verifyCorrectCommandUsage() {
+	if(process.argv.length < 3) {
+		console.error("Usage: create-customelement-package <customelement-package-name>");
+
+		process.exit(1);
+	}
+}
+
+function copyFileFromTemplateToNewlyCreatedPackageAndTransform(fileName, transformStream) {
 	var packageFile = packageDirectory + fileName,
 		templateFile = templateDirectory + fileName,
 		templateFileReadStream = fs.createReadStream(templateFile),
 		packageFileWriteStream = fs.createWriteStream(packageFile);
-	
-	templateFileReadStream.pipe(packageFileWriteStream);
+
+	templateFileReadStream.pipe(transformStream).pipe(packageFileWriteStream);
 };
 
 function npmLoaded(err, npm) {
