@@ -1,0 +1,9 @@
+{
+  "name": "PCK-NAME",
+  "version": "0.0.0",
+  "description": "PCK-NAME",
+  "scripts": {
+    "start": "node server.js",
+    "postinstall": "npm dedupe"
+  }
+}
