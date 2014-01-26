@@ -9,7 +9,7 @@ var http = require("http"),
 
 http.createServer(clientRequestHandler).listen(8080);
 
-console.info("Connecting server to port", 8080);
+console.info("Connecting server to port, serving PCK-NAME", 8080);
 
 function clientRequestHandler(request, response) {
 	request.addListener("end", requestEndedListener).resume();
